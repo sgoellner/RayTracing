@@ -1,0 +1,18 @@
+
+Surface-Liste muss es für mehrere Strahlen geben können, vorwärts und rückwärts
+
+calcYNU(table, [startY, startU])
+plotOptSystem(table, [Strahl1, Strahl2, ...])
+
+Berechnen:
+- Bild: Lage und Höhe
+- EP, AP: Lage und Größe
+- NA_o, NA_b
+- Haupt-, Randstrahl
+- efl, bfl, ffl
+- f-Zahl
+- Lage Hauptebenen
+- R = 0 -> Fehlerausgabe sowie R = infty
+
+Bugs:
+Wenn letzte Ebene Stop ist, will er einen Radius haben :(
