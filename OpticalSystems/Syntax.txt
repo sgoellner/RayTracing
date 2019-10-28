@@ -1,0 +1,4 @@
+O	object.x	object.z	object.n
+L	surface.x	surface.r	surface.n	surface.d
+M	mirror.x	mirror.r	mirror.n	mirror.d
+S	stop.x	stop.d
