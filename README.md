@@ -1,3 +1,3 @@
 # RayTracing
 ## Benutzung
-Bsp.: `raytracing.py OpticalSystem/Uebung.txt`
+Bsp.: `raytracing.py OpticalSystems/Uebung.txt`
