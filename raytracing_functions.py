@@ -94,8 +94,10 @@ def invertTable(table):
 
 def calcYNU(table, startPos = [0, 10, 0.01]):
     startI, startY, startU = startPos
-    strahl = [ynu(table.x[startI], startY, table.n[startI], startU)]
+    strahl = [ynu(table[:startI].x.sum(), startY, table.n[startI], startU)]
     for index, surface in table.iterrows():
+        if index < startI:
+            continue
         if surface.type == 'O':
             continue
         strahl.append(ynu())
