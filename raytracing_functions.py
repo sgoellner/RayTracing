@@ -113,12 +113,14 @@ def calcYNU(table, startPos = [0, 10, 0.01]):
 
 
 
-def plotOptSystem(strahl, table):
+def plotOptSystem(table, strahlen):
     fig, ax = plt.subplots()
     patches=[]
-    for i in range(2,len(strahl)+1):
-        l = mlines.Line2D([strahl[i-2].x,strahl[i-1].x], [strahl[i-2].y, strahl[i-1].y])
-        ax.add_line(l)     
+    
+    for strahl in strahlen:
+        for i in range(2,len(strahl)+1):
+            l = mlines.Line2D([strahl[i-2].x,strahl[i-1].x], [strahl[i-2].y, strahl[i-1].y])
+            ax.add_line(l)     
     
     # Objekt einzeichnen
     for index, obj in table.iterrows():
