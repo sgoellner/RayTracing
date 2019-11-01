@@ -4,7 +4,7 @@ import sys
 import matplotlib.lines as mlines
 import matplotlib.pyplot as plt
 from matplotlib.patches import Arc
-from math import sin, pi, inf
+from math import sin, pi, inf, isnan
 
 
 class ynu:
@@ -92,16 +92,20 @@ def invertTable(table):
 
 
 
-def calcYNU(table):    
-    strahl = [ynu(table.x[0],table.z[0], table.n[0], 0)]
+def calcYNU(table, startPos = [0, 10, 0.01]):
+    startI, startY, startU = startPos
+    strahl = [ynu(table.x[startI], startY, table.n[startI], startU)]
     for index, surface in table.iterrows():
-        if surface.type == 'L' or index==len(table)-1:
-            strahl.append(ynu())
-            strahl[-1].x = table[:index+1].x.sum()
-            strahl[-1].n = surface.n
-            strahl[-1].y = strahl[-2].y + strahl[-2].u * surface.x
+        if surface.type == 'O':
+            continue
+        strahl.append(ynu())
+        strahl[-1].x = table[:index+1].x.sum()
+        strahl[-1].y = strahl[-2].y + strahl[-2].u * surface.x
+        strahl[-1].n = surface.n
+        if isnan(surface.R):
+            strahl[-1].u = strahl[-2].u
+        else:
             strahl[-1].u = strahl[-2].n*strahl[-2].u - (strahl[-1].y*(strahl[-1].n-strahl[-2].n))/(surface.R*strahl[-2].n)        
-           
    
     return strahl
 

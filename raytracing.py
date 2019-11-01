@@ -11,7 +11,7 @@ table = loadOptSystem(sys.argv[1])
 #table = invertTable(table)
         
 # Surfaces berechnen
-strahl = calcYNU(table)
+strahl = calcYNU(table, [0, table.z[0], 0])
 
 # Darstellung des Strahlenganges
 plotOptSystem(strahl, table)
