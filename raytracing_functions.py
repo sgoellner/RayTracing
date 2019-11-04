@@ -57,50 +57,6 @@ def loadOptSystem(fileName):
         
     return table
 
-# Tausche alle Ebenen außer Objekt (index=0)
-def invertTable(table):
-#    print('Unbearbeitet:\n',table)
-    
-    # Objekt rausnehmen
-    obj = table.loc[0]
-    table = table.drop(0)
-#    print('Obj dropped:\n', table)    
-    
-    # Umdrehen aller Ebenen
-    for i in range(1,len(table)//2+1):
-        table.loc[i], table.loc[len(table)-i+1] = table.loc[len(table)-i+1], table.loc[i]
-    
-#    print('Neu sortiert:\n', table)
-    
-    # Tauschen der rel. X-Positionen
-    for i in range(1,len(table)):
-        #print('Ich tausche {} und {}'.format(i, i-1))
-        if i == 1:
-            table.loc[len(table),'x'], table.loc[i,'x'] = table.loc[i,'x'], table.loc[len(table),'x']
-            table.loc[len(table),'n'], table.loc[i,'n'] = table.loc[i,'n'], table.loc[len(table),'n']
-        else:
-            table.loc[i+1,'x'], table.loc[i,'x'] = table.loc[i,'x'], table.loc[i+1,'x']
-            table.loc[i+1,'n'], table.loc[i,'n'] = table.loc[i,'n'], table.loc[i+1,'n']
-
-#        print(table)
-            
-    # Radien + -> -, - -> +
-    for i in range(1,len(table)+1):
-        print('Row:\n',table.loc[i])
-        if table.loc[i, 'R']:
-            print('in if')
-            table.loc[i, 'R'] = -table.loc[i, 'R']
-        print('Row ggf bearbeitet:\n', table.loc[i, 'R'])
-        
-        
-    # Objekt einfügen
-    table.loc[0]=obj
-    table = table.sort_index()
-    
-#    print('Fertig:\n', table)
-    return table
-
-
 
 # Berechne paraxialen Strahlengang von startPos durch table
 # table: pandas Dataframe mit optischen System
