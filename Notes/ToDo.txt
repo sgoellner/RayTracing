@@ -1,7 +1,8 @@
 
-Surface-Liste muss es für mehrere Strahlen geben können, vorwärts und rückwärts
-
-plotOptSystem(table, [Strahl1, Strahl2, ...])
+Richtung für Strahlen angeben bei calcYNU
+-> n = -n
+-> R = -R
+-> d[0] = d[1] oder so?
 
 Berechnen:
 - Bild: Lage und Höhe
