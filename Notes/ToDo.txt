@@ -4,6 +4,8 @@ Richtung für Strahlen angeben bei calcYNU
 -> R = -R
 -> d[0] = d[1] oder so?
 
+korrekte Darstellung Randstrahl
+
 Berechnen:
 - Bild: Lage und Höhe
 - EP, AP: Lage und Größe
@@ -13,3 +15,11 @@ Berechnen:
 - f-Zahl
 - Lage Hauptebenen
 - R = 0 -> Fehlerausgabe sowie R = infty
+
+
+
+Zeitplan erstellen
+wöchentliche Rückmeldung
+
+Für Kekse:
+UI (drag&drop oder einfache Auswahl)
