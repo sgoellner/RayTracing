@@ -63,11 +63,11 @@ def loadOptSystem(fileName):
 # StartPos: [Index der Ebene bezogen auf table, Höhe Strahl, Steigung Strahl]
 def calcYNU(table, startPos = [0, 10, 0.01]):
     startI, startY, startU = startPos
-    ray = [ynu(table[:startI].x.sum(), startY, table.n[startI], startU)]
+    ray = [ynu(table[:startI+1].x.sum(), startY, table.n[startI], startU)]
     # Durch alle Ebenen iterieren und an brechenden Ebenen neuen Strahl rechnen
     for index, surface in table.iterrows():
         # Überspringe alle Ebenen links von der Startebene
-        if index < startI:
+        if index <= startI:
             continue
         # Überspringe Objektebene
         if surface.type == 'O':
@@ -81,7 +81,7 @@ def calcYNU(table, startPos = [0, 10, 0.01]):
         if isnan(surface.R):
             ray[-1].u = ray[-2].u
         else:
-            ray[-1].u = ray[-2].n*ray[-2].u - (ray[-1].y*(ray[-1].n-ray[-2].n))/(surface.R*ray[-2].n)        
+            ray[-1].u = (ray[-2].n*ray[-2].u - ray[-1].y*(ray[-1].n-ray[-2].n)/surface.R)/ray[-2].n        
    
     return ray
 
