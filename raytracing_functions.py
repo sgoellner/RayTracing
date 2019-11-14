@@ -81,7 +81,7 @@ def calcYNU(table, startPos = [0, 10, 0.01]):
         if isnan(surface.R):
             ray[-1].u = ray[-2].u
         else:
-            ray[-1].u = (ray[-2].n*ray[-2].u - ray[-1].y*(ray[-1].n-ray[-2].n)/surface.R)/ray[-2].n        
+            ray[-1].u = (ray[-2].n*ray[-2].u - ray[-1].y*(ray[-1].n-ray[-2].n)/surface.R)/ray[-1].n        
    
     return ray
 
