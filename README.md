@@ -1,6 +1,6 @@
 # RayTracing
 ## Benutzung
-Bsp.: `raytracing.py OpticalSystems/Uebung.txt`
+Bsp.: `python raytracing.py OpticalSystems/Uebung.txt`
 
 ## Ziele
 Berechnungen:
