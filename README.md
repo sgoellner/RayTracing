@@ -27,7 +27,7 @@ Damit wir Kekse bekommen:
   
 ## To-Do
 - [ ] Richtung für Strahlen angeben bei calcYNU
-  - dadurch sollen Brechungsindex, Krümmungsradien invertiert werden und die Abstände von hinten kommend passen
+  - dadurch sollen Vorzeichen von Brechungsindex und Krümmungsradien gedreht werden und die Abstände von hinten kommend passen
 - [ ] Strahl bis zum Bild anzeigen lassen
   - erst Position des Bildes berechnen und dann *table* um Bildebene erweitern
   
