@@ -4,12 +4,12 @@ Bsp.: `python raytracing.py OpticalSystems/Uebung.txt`
 
 ## Ziele
 Berechnungen:
-- [ ] Bild: Lage und Höhe
+- [x] Bild: Lage und Höhe
 - [x] Austrittspupille: Lage und Größe
 - [x] Eintrittspupille: Lage und Größe
 - [ ] objektiv- und bildseitige Numerische Apertur
-- [ ] Haupt- und Randstrahl
-- [ ] effective, front und back focal length (efl, ffl, bfl)
+- [x] Haupt- und Randstrahl
+- [x] effective, front und back focal length (efl, ffl, bfl)
 - [ ] f-Zahl
 - [ ] Lage Hauptebenen
 
@@ -22,7 +22,7 @@ Exceptions abfangen:
 
 Verschönerungen:
 - [x] Objekt(-ebene) einzeichnen
-- [ ] Bild(-ebene) einzeichnen
+- [x] Bild(-ebene) einzeichnen
 - [ ] Haupt- und Randstrahl einzeichnen
 - [ ] Hauptebenen einzeichnen (auf Wunsch)
 - [ ] EP/AP einzeichnen (auf Wunsch)
@@ -38,6 +38,6 @@ Damit wir Kekse bekommen:
 ## To-Do
 - [x] Richtung für Strahlen angeben bei calcYNU
   - dadurch sollen Vorzeichen von Brechungsindex und Krümmungsradien gedreht werden und die Abstände von hinten kommend passen
-- [ ] Strahl bis zum Bild darstellen
+- [x] Strahl bis zum Bild darstellen
   - erst Position des Bildes berechnen und dann *table* um Bildebene erweitern
   

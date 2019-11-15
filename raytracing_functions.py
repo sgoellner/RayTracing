@@ -138,6 +138,48 @@ def calcAP(table):
     return [dAP, hAP]
 
 
+# Berechne back focal length (rückwertige Fokallänge)
+def calcBFL(table):
+    # Randbedingungen zur Bestimmung der bfl:
+    startI = 0 
+    startY = 1 
+    startU = 0
+    # Strahl berechnen
+    ray = calcYNU(table, [startI, startY, startU])
+    # bfl = -y/u
+    bfl = -ray[-1].y/ray[-1].u 
+    return bfl
+
+# Berechne front focal length (vordere Fokallänge)
+def calcFFL(table):
+    # Randbedingungen zur Bestimmung der ffl:
+    startI = len(table)-1
+    startY = 1 
+    startU = 0
+    # Strahl berechnen
+    ray = calcYNU(table, [startI, startY, startU], inverted=True)
+    # ffl = -y/u
+    ffl = -ray[-2].y/ray[-2].u 
+    return ffl
+
+# Berechne effective focal length (effektive Fokallänge)
+def calcEFL(table):
+    # Randbedingungen zur Bestimmung der ffl:
+    startI = len(table)-1
+    startY = 1 
+    startU = 0
+    # Strahl berechnen
+    ray = calcYNU(table, [startI, startY, startU], inverted=True)
+    # ffl = -y/u
+    efl = -ray[0].y/ray[-2].u 
+    return efl
+
+# Berechne (paraxial) korrekte Bildposition
+def calcDImage(table):
+    ray = calcYNU(table, [0, 0, 0.01])
+    dImage = -ray[-1].y/ray[-1].u
+    return dImage
+
 # Erzeuge Plot des optischen Systems
 # table: pandas Dataframe mit optischen System
 # rays: [ray1, ray2, ...] mit ray=[ynu1,ynu2,...]
@@ -157,6 +199,11 @@ def plotOptSystem(table, rays):
        if obj.type == 'O' :
            ax.arrow(obj.x, 0, 0, obj.z-obj.z/10, head_width=4, head_length=obj.z/10, fc='k', ec='k')
     
+    # Bild einzeichnen
+    for index, obj in table.iterrows():
+       if obj.type == 'I' :
+           ax.arrow(table[:index+1].x.sum(), 0, 0, obj.z-obj.z/10, head_width=4, head_length=obj.z/10, fc='k', ec='k')
+
            
     # Linsenflächen einzeichnen
     for index, surface in table.iterrows():
