@@ -159,7 +159,7 @@ def calcFFL(table):
     # Strahl berechnen
     ray = calcYNU(table, [startI, startY, startU], inverted=True)
     # ffl = -y/u
-    ffl = -ray[-2].y/ray[-2].u 
+    ffl = ray[-2].y/ray[-2].u 
     return ffl
 
 # Berechne effective focal length (effektive Fokallänge)
