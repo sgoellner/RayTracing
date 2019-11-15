@@ -6,7 +6,7 @@ Bsp.: `python raytracing.py OpticalSystems/Uebung.txt`
 Berechnungen:
 - [ ] Bild: Lage und Höhe
 - [x] Austrittspupille: Lage und Größe
-- [ ] Eintrittspupille: Lage und Größe
+- [x] Eintrittspupille: Lage und Größe
 - [ ] objektiv- und bildseitige Numerische Apertur
 - [ ] Haupt- und Randstrahl
 - [ ] effective, front und back focal length (efl, ffl, bfl)
@@ -36,7 +36,7 @@ Damit wir Kekse bekommen:
   
   
 ## To-Do
-- [ ] Richtung für Strahlen angeben bei calcYNU
+- [x] Richtung für Strahlen angeben bei calcYNU
   - dadurch sollen Vorzeichen von Brechungsindex und Krümmungsradien gedreht werden und die Abstände von hinten kommend passen
 - [ ] Strahl bis zum Bild darstellen
   - erst Position des Bildes berechnen und dann *table* um Bildebene erweitern
