@@ -26,6 +26,7 @@ Verschönerungen:
 - [ ] Haupt- und Randstrahl einzeichnen
 - [ ] Hauptebenen einzeichnen (auf Wunsch)
 - [ ] EP/AP einzeichnen (auf Wunsch)
+- [ ] Strahlen in unterschiedlichen Farben darstellen
 
 Damit wir Kekse bekommen:
 - [ ] GUI
