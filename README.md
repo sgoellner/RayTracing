@@ -12,6 +12,8 @@ Berechnungen:
 - [x] effective, front und back focal length (efl, ffl, bfl)
 - [ ] f-Zahl
 - [ ] Lage Hauptebenen
+- [ ] Abbildungsverhältnis
+- [ ] (wenn frühzeitig fertig: Seidelaberrationen)
 
 Exceptions abfangen:
 - [ ] R = 0 -> Fehlerausgabe sowie R = infty
@@ -27,12 +29,15 @@ Verschönerungen:
 - [ ] Hauptebenen einzeichnen (auf Wunsch)
 - [ ] EP/AP einzeichnen (auf Wunsch)
 - [ ] Strahlen in unterschiedlichen Farben darstellen
+- [ ] Kommentare erweitern, sodass bspw. *help(rt.calcBFL)* hilfreich ist
 
 Damit wir Kekse bekommen:
 - [ ] GUI
   - Tkinter?
   - Browserbasiert/Webserver?
   - Drag'n'Drop von Elementen in optisches System (anstelle von Tabelle)
+  - Glasdatenbank?
+  - Linsen abspeichern?
   
   
 ## To-Do
