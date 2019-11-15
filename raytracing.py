@@ -19,8 +19,8 @@ print("hEP = {} mm".format(round(ep[1],2)))
 
 # Austrittspupille berechnen 
 ap = rt.calcAP(table)
-print("dEP = {} mm".format(round(ap[0],2)))
-print("hEP = {} mm".format(round(ap[1],2)))
+print("dAP = {} mm".format(round(ap[0],2)))
+print("hAP = {} mm".format(round(ap[1],2)))
  
 
 # Darstellung des Strahlenganges
