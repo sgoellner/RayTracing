@@ -18,7 +18,9 @@ class ynu:
         self.u = u
     # "Schönes printen" von Klasse mit Werten
     def __repr__(self):
-        return  str(self.__class__) + '\n' + '\n'.join((str(item) + ' = ' + str(self.__dict__[item]) for item in sorted(self.__dict__)))
+        return  (str(self.__class__) + '\n' + 
+                 '\n'.join((str(item) + ' = ' + str(self.__dict__[item])
+                            for item in sorted(self.__dict__))))
         
 # Einlesen der Datei welche optisches System beinhält
 def loadOptSystem(fileName):
@@ -61,29 +63,79 @@ def loadOptSystem(fileName):
 # Berechne paraxialen Strahlengang von startPos durch table
 # table: pandas Dataframe mit optischen System
 # StartPos: [Index der Ebene bezogen auf table, Höhe Strahl, Steigung Strahl]
-def calcYNU(table, startPos = [0, 10, 0.01]):
+def calcYNU(table, startPos = [0, 10, 0.01], inverted=False):
     startI, startY, startU = startPos
-    ray = [ynu(table[:startI+1].x.sum(), startY, table.n[startI], startU)]
+    ray = [ynu(
+            table[:startI+1].x.sum(),
+            startY, 
+            table.n[startI], 
+            startU)
+    ]
     # Durch alle Ebenen iterieren und an brechenden Ebenen neuen Strahl rechnen
-    for index, surface in table.iterrows():
-        # Überspringe alle Ebenen links von der Startebene
-        if index <= startI:
-            continue
-        # Überspringe Objektebene
-        if surface.type == 'O':
-            continue
+    
+    i = startI
+    while True:
+        # Hoch/Runterzählen des Indexes
+        i += 1 if not inverted else -1
+        # Schleife beenden wenn Index aus table rausgelaufen ist
+        if(i < 0 or i >= len(table)): break
         # Erzeuge neuen ynu-Strahl
         ray.append(ynu())
-        ray[-1].x = table[:index+1].x.sum()
-        ray[-1].y = ray[-2].y + ray[-2].u * surface.x
-        ray[-1].n = surface.n
+        # x ist der Abstand zum Objekt
+        ray[-1].x = table[:i+1].x.sum()
+        # Transfergleichung
+        # y' = y + ud
+        ray[-1].y = ray[-2].y + ray[-2].u * (
+                table.loc[i].x if not inverted else table.loc[i+1].x)
+        ray[-1].n = table.loc[i].n if(not inverted or i == 0) else table.loc[i-1].n
         # Wenn R=NaN, soll die vorige Steigung übernommen werden
-        if isnan(surface.R):
+        # sonst: n'u' = nu-y(n'-n)/R
+        if isnan(table.loc[i].R):
             ray[-1].u = ray[-2].u
         else:
-            ray[-1].u = (ray[-2].n*ray[-2].u - ray[-1].y*(ray[-1].n-ray[-2].n)/surface.R)/ray[-1].n        
+            ray[-1].u = (ray[-2].n * 
+               ray[-2].u - ray[-1].y*(ray[-1].n-ray[-2].n)
+               /(table.loc[i].R) * (-1 if inverted else 1))/(ray[-1].n)        
    
     return ray
+
+# Berechne Position und Lage der Eintrittspupille
+def calcEP(table):
+    # Eintrittspupille - Position
+    startI = table.loc[table['type']=='S'].index[0] # Index des ersten Stops
+    # Randbedingungen zur Bestimmung der Position der Eintrittspupille:
+    startY = 0 
+    startU = 0.1
+    rayDEP = calcYNU(table, [startI, startY, startU], inverted=True)
+    dEP = -rayDEP[-2].y/rayDEP[-2].u # d_AP = -y/u
+    
+    # Eintrittspupille - Höhe
+    startI = table.loc[table['type']=='S'].index[0] # Index des ersten Stops
+    # Randbedingungen zur Bestimmung der Höhe der Eintrittspupille:
+    startY = table.loc[table['type']=='S', 'z'].iloc[0] # Höhe des Stops
+    startU = 0
+    rayHEP = calcYNU(table, [startI, startY, startU], inverted=True)
+    hEP = rayHEP[-2].y + rayHEP[-2].u * dEP # h_EP = y + u*d_EP
+    return [dEP, hEP]
+
+# Berechne Position und Lage der Austrittspupille
+def calcAP(table):
+    # Austrittspupille - Position
+    startI = table.loc[table['type']=='S'].index[0] # Index des ersten Stops
+    # Randbedingungen zur Bestimmung der Position der Austrittspupille:
+    startY = 0 
+    startU = 0.1
+    rayDAP = calcYNU(table, [startI, startY, startU])
+    dAP = -rayDAP[-1].y/rayDAP[-1].u # d_AP = -y/u
+    
+    # Austrittspupille - Höhe
+    startI = table.loc[table['type']=='S'].index[0] # Index des ersten Stops
+    # Randbedingungen zur Bestimmung der Höhe der Austrittspupille:
+    startY = table.loc[table['type']=='S', 'z'].iloc[0] # Höhe des Stops
+    startU = 0
+    rayHAP = calcYNU(table, [startI, startY, startU])
+    hAP = rayHAP[-1].y + rayHAP[-1].u * dAP # h_EP = y + u*d_EP
+    return [dAP, hAP]
 
 
 # Erzeuge Plot des optischen Systems
