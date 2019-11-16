@@ -35,7 +35,6 @@ dImage = rt.calcDImage(table)
 table.loc[len(table)-1, 'x'] += dImage
 print("dI = {} mm".format(round(table.loc[len(table)-1, 'x'], 2)))
 
-
 # Surfaces berechnen
 uMR = ep[1]/(table.loc[1].x-ep[0])
 uCR = -table.loc[0].z/(table.loc[1].x-ep[0])
@@ -44,6 +43,28 @@ chiefRay = rt.calcYNU(table, [0, table.loc[0,'z'], uCR])
 
 # Bildhöhe in table schreiben
 table.loc[len(table)-1, 'z'] = chiefRay[-1].y
+
+# Abbildungsmaßstab berechnen
+beta = rt.calcMagnification(table)
+print("beta = {}".format(round(beta, 2)))
+
+# Hauptebenen berechnen
+H1, H2 = rt.calcPrinciplePlanes(ffl, bfl, efl)
+print("H1 = {} mm".format(round(H1, 2)))
+print("H2 = {} mm".format(round(H2, 2)))
+
+# f-Zahl berechnen
+fNumber = rt.calcFNumber(efl, ep[1])
+print("beta = {}".format(round(fNumber, 2)))
+
+# Berechne objektseitige numerische Apertur
+NAO = rt.calcNAO(chiefRay)
+print("NA_o = {}".format(round(NAO, 2)))
+
+# Berechne bildseitige numerische Apertur
+NAI = rt.calcNAI(chiefRay)
+print("NA_i = {}".format(round(NAI, 2)))
+
 
 # Darstellung des Strahlenganges
 rt.plotOptSystem(table, [marginalRay, chiefRay])

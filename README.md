@@ -7,12 +7,12 @@ Berechnungen:
 - [x] Bild: Lage und Höhe
 - [x] Austrittspupille: Lage und Größe
 - [x] Eintrittspupille: Lage und Größe
-- [ ] objektiv- und bildseitige Numerische Apertur
+- [x] objektiv- und bildseitige Numerische Apertur
 - [x] Haupt- und Randstrahl
 - [x] effective, front und back focal length (efl, ffl, bfl)
-- [ ] f-Zahl
-- [ ] Lage Hauptebenen
-- [ ] Abbildungsverhältnis
+- [x] f-Zahl
+- [x] Lage Hauptebenen
+- [x] Abbildungsverhältnis
 - [ ] (wenn frühzeitig fertig: Seidelaberrationen)
 
 Exceptions abfangen:

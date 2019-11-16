@@ -180,6 +180,26 @@ def calcDImage(table):
     dImage = -ray[-1].y/ray[-1].u
     return dImage
 
+# Berechne Abbildungsmaßstab
+def calcMagnification(table):
+    return table.loc[len(table)-1, 'z']/table.loc[0, 'z']
+
+# Berechne Hauptebenen
+def calcPrinciplePlanes(ffl, bfl, efl):
+    return ffl + efl, bfl - efl
+
+# Berechne f-Zahl
+def calcFNumber(efl, hEP):
+    return efl/(2*hEP)
+
+# Berechne objektseitige numerische Apertur
+def calcNAO(chiefRay):
+    return abs(chiefRay[0].n * chiefRay[0].u)
+
+# Berechne bildseitige numerische Apertur
+def calcNAI(chiefRay):
+    return abs(chiefRay[-1].n * chiefRay[-1].u)
+
 # Erzeuge Plot des optischen Systems
 # table: pandas Dataframe mit optischen System
 # rays: [ray1, ray2, ...] mit ray=[ynu1,ynu2,...]
