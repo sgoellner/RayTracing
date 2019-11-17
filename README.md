@@ -16,16 +16,16 @@ Berechnungen:
 - [ ] (wenn frühzeitig fertig: Seidelaberrationen)
 
 Exceptions abfangen:
-- [ ] R = 0 -> Fehlerausgabe sowie R = infty
-- [ ] Werte und Datentypen in optischem System prüfen
-- [ ] optisches System darf nur ein *Stop* besitzen
-- [ ] optisches System darf nur ein *Objekt* besitzen
-- [ ] optisches System darf nur aus folgenden Typen bestehen: O (Object), L (Lens), S (Stop), I (Image)
+- [x] R = 0 -> Fehlerausgabe sowie R = inf
+- [x] Werte und Datentypen in optischem System prüfen
+- [x] optisches System darf nur ein *Stop* besitzen
+- [x] optisches System darf nur ein *Objekt* besitzen
+- [x] optisches System darf nur aus folgenden Typen bestehen: O (Object), L (Lens), S (Stop), I (Image)
 
 Verschönerungen:
 - [x] Objekt(-ebene) einzeichnen
 - [x] Bild(-ebene) einzeichnen
-- [ ] Haupt- und Randstrahl einzeichnen
+- [x] Haupt- und Randstrahl einzeichnen
 - [ ] Hauptebenen einzeichnen (auf Wunsch)
 - [ ] EP/AP einzeichnen (auf Wunsch)
 - [ ] Strahlen in unterschiedlichen Farben darstellen

@@ -58,12 +58,12 @@ fNumber = rt.calcFNumber(efl, ep[1])
 print("beta = {}".format(round(fNumber, 2)))
 
 # Berechne objektseitige numerische Apertur
-NAO = rt.calcNAO(chiefRay)
-print("NA_o = {}".format(round(NAO, 2)))
+NAo = rt.calcNAO(chiefRay)
+print("NA_o = {:.3f}".format(round(NAo, 3)))
 
 # Berechne bildseitige numerische Apertur
-NAI = rt.calcNAI(chiefRay)
-print("NA_i = {}".format(round(NAI, 2)))
+NAi = rt.calcNAI(chiefRay)
+print("NA_i = {:.3f}".format(round(NAi, 3)))
 
 
 # Darstellung des Strahlenganges

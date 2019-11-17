@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Arc
 from math import sin, pi, inf, isnan
 import pandas as pd
+import numpy
 import sys
 
 # Strahlinformationen in gegebener Ebene
@@ -24,13 +25,15 @@ class ynu:
         
 # Einlesen der Datei welche optisches System beinhält
 def loadOptSystem(fileName):
+    # Lade Datei in table
     try:
         table = pd.read_csv(fileName, sep = '\t')
     except IndexError:
         print("Error! Datei mit Linsensystem nicht als Parameter angegeben!")
         sys.exit(1)
     except FileNotFoundError:
-        print("Error! Datei \"{}\" konnte nicht gefunden werden".format(sys.argv[1]))
+        print("Error! Datei \"{}\" konnte nicht gefunden werden"
+              .format(sys.argv[1]))
         sys.exit(1)
     except:
         print("Unexpected error:", sys.exc_info()[0])
@@ -43,19 +46,76 @@ def loadOptSystem(fileName):
         print("Soll:\n['type', 'x', 'z', 'n', 'R']")
         print("Ist:\n{}".format(list(table.columns)))
         sys.exit(1)
-    
+        
+    # Datentypen prüfen
+    # table.type: str
+    # table.x, table.z, table.n, table.R: int,float, numpy.int64, numpy.float64
+    for i in range(len(table)):
+        if not isinstance(table.loc[i, 'type'], str):
+            print(("Fehler! Falscher Datentyp! "
+                  "Kein String in Spalte 'type', Zeile {}!").format(i+2))
+            sys.exit(1)
+        if not isinstance(table.loc[i, 'x'], 
+                          (int, float, numpy.int64, numpy.float64)):
+            print(("Fehler! Falscher Datentyp! "
+                  "Keine Zahl in Spalte 'x', Zeile {}!").format(i+2))
+            sys.exit(1)
+        if not isinstance(table.loc[i, 'z'], 
+                          (int, float, numpy.int64, numpy.float64)):
+            print(("Fehler! Falscher Datentyp! "
+                  "Keine Zahle in Spalte 'z', Zeile {}!").format(i+2))
+            sys.exit(1)
+        if not isinstance(table.loc[i, 'n'], 
+                          (int, float, numpy.int64, numpy.float64)):
+            print(("Fehler! Falscher Datentyp! "
+                  "Keine Zahl in Spalte 'n', Zeile {}!").format(i+2))
+            sys.exit(1)
+        if not isinstance(table.loc[i, 'R'], 
+                          (int, float, numpy.int64, numpy.float64)):
+            print(("Fehler! Falscher Datentyp! "
+                  "Keine Zahl in Spalte 'R', Zeile {}!").format(i+2))
+            sys.exit(1)
+        
+    # Typen prüfen    
+    for i in range(len(table)):
+        # Alle Typen in Uppercase umwandeln
+        table.loc[i, 'type'] = table.loc[i, 'type'].upper()
+        # Typen prüfen: Nur O, L, S, I
+        if table.loc[i, 'type'] not in ['O', 'L', 'S', 'I']:
+            print("Fehler! Unbekannter Typ {} in Zeile {}!".
+                  format(table.loc[i, 'type'], i+2))
+            sys.exit(1)
+            
     # Erste Zeile = Objekt?
     if table.type[0] != 'O':
         print('Fehler! Erste Zeile muss das Objekt (O) darstellen!')
         sys.exit(1)
-    
+        
+    # Genau ein Objekt vorhanden?
+    try:
+        if table.type.value_counts()['O'] != 1:
+            print('Fehler! Es ist nicht ein Objekt, sondern {} vorhanden!'
+                  .format(table.type.value_counts()['O']))
+            sys.exit(1)
+    except KeyError: # Kein 'O' gefunden?
+        print("Fehler! Kein Objekt angegeben!")
+        sys.exit(1)
+        
+    # Genau ein Stop vorhanden?
+    try:
+        if table.type.value_counts()['S'] != 1:
+            print('Fehler! Es ist nicht ein Stop, sondern {} vorhanden!'
+                  .format(table.type.value_counts()['S']))
+            sys.exit(1)
+    except KeyError:
+        print("Fehler! Kein Stop angegeben!")
+        sys.exit(1)
+        
     # Radius prüfen
     for i in range(len(table)):
         if table.R[i] == 0:
             print('Fehler! Radius darf nicht 0 sein')
             sys.exit(1) 
-        if table.R[i] == 'infty':
-            table.R[i] = inf
         
     return table
 
@@ -211,18 +271,21 @@ def plotOptSystem(table, rays):
     # Strahlen einzeichnen als Linien zwischen Ebenen
     for ray in rays:
         for i in range(2,len(ray)+1):
-            l = mlines.Line2D([ray[i-2].x,ray[i-1].x], [ray[i-2].y, ray[i-1].y])
+            l = mlines.Line2D([ray[i-2].x,ray[i-1].x], 
+                              [ray[i-2].y, ray[i-1].y])
             ax.add_line(l)     
     
     # Objekt einzeichnen
     for index, obj in table.iterrows():
        if obj.type == 'O' :
-           ax.arrow(obj.x, 0, 0, obj.z-obj.z/10, head_width=4, head_length=obj.z/10, fc='k', ec='k')
+           ax.arrow(obj.x, 0, 0, obj.z-obj.z/10,
+                    head_width=4, head_length=obj.z/10, fc='k', ec='k')
     
     # Bild einzeichnen
     for index, obj in table.iterrows():
        if obj.type == 'I' :
-           ax.arrow(table[:index+1].x.sum(), 0, 0, obj.z-obj.z/10, head_width=4, head_length=obj.z/10, fc='k', ec='k')
+           ax.arrow(table[:index+1].x.sum(), 0, 0, obj.z-obj.z/10, 
+                    head_width=4, head_length=obj.z/10, fc='k', ec='k')
 
            
     # Linsenflächen einzeichnen
@@ -233,7 +296,9 @@ def plotOptSystem(table, rays):
             # Winkel negieren, wenn Linse konkav
             if surface.R < 0:
                 theta = -theta
-            arc = Arc((table[:index+1].x.sum()+surface.R, 0), 2*surface.R, 2*surface.R, 0, -theta-180, theta-180, edgecolor ='b', facecolor ='none')
+            arc = Arc((table[:index+1].x.sum()+surface.R, 0), 
+                      2*surface.R, 2*surface.R, 0, -theta-180, theta-180, 
+                      edgecolor ='b', facecolor ='none')
             patches.append(arc)
             ax.add_artist(arc)
     
@@ -241,8 +306,10 @@ def plotOptSystem(table, rays):
     # Stop Einzeichnen
     for index, stop in table.iterrows():
       if stop.type == 'S' :
-          ax.vlines(table[:index+1].x.sum(), stop.z, table[:index+1].z.sum(), colors='r', linestyles='solid', label='') 
-          ax.vlines(table[:index+1].x.sum(), -stop.z, -table[:index+1].z.sum(), colors='r', linestyles='solid', label='') 
+          ax.vlines(table[:index+1].x.sum(), stop.z, table[:index+1].z.sum(), 
+                    colors='r', linestyles='solid', label='') 
+          ax.vlines(table[:index+1].x.sum(), -stop.z, -table[:index+1].z.sum(),
+                    colors='r', linestyles='solid', label='') 
        
     # Achsenbegrenzungen berechnen und setzen
     # x: von min bis max mit jeweils 1/50 der Länge des opt. Systems als Rand
