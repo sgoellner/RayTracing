@@ -1,5 +1,8 @@
 import matplotlib.lines as mlines
 import matplotlib.pyplot as plt
+#import raytracing_gui as gui
+import os
+from tkinter.filedialog import askopenfilename 
 from matplotlib.patches import Arc
 from math import sin, pi, inf, isnan
 import pandas as pd
@@ -22,10 +25,13 @@ class ynu:
                  '\n'.join((str(item) + ' = ' + str(self.__dict__[item])
                             for item in sorted(self.__dict__))))
         
+        
+
+        
 # Einlesen der Datei welche optisches System beinhält
-def loadOptSystem(fileName):
+def loadOptSystem():
     try:
-        table = pd.read_csv(fileName, sep = '\t')
+        table = pd.read_csv(askopenfilename(initialdir = os.getcwd(), filetypes =[('Text Files', '*.txt'), ("all files","*.*")]), sep = '\t')
     except IndexError:
         print("Error! Datei mit Linsensystem nicht als Parameter angegeben!")
         sys.exit(1)
@@ -58,6 +64,7 @@ def loadOptSystem(fileName):
             table.R[i] = inf
         
     return table
+
 
 
 # Berechne paraxialen Strahlengang von startPos durch table
@@ -237,8 +244,4 @@ def plotOptSystem(table, rays):
     # Achsenbeschriftungen setzen und plot erzeugen
     plt.xlabel('opt. Achse in mm')
     plt.ylabel('z in mm')
-    plt.show
-
-
-
-
+    plt.savefig("temp.png") 

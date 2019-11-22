@@ -45,4 +45,11 @@ Damit wir Kekse bekommen:
   - dadurch sollen Vorzeichen von Brechungsindex und Krümmungsradien gedreht werden und die Abstände von hinten kommend passen
 - [x] Strahl bis zum Bild darstellen
   - erst Position des Bildes berechnen und dann *table* um Bildebene erweitern
+- [ ] GUI mit TKinter
+	- [x] Darstellung des Plots im Fenster
+	- [x] Darstellung der Ergebnise( EP, AP, FFL, BFL, EFL, dI)
+	- [ ] Aktualisierung des Plots/der Messwerte bei neu einlesen
+	- [ ] evtl. nicht als png Darstellen -> Einbindung matplotlib?
+- [ ] Ausführlichere Hilfe
+- [ ] insgesamt optisch ansprechender gestalten
   
