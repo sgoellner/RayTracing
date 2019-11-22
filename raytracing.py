@@ -10,32 +10,26 @@ table = rt.loadOptSystem(sys.argv[1])
 
 # Eintrittspupille berechnen
 ep = rt.calcEP(table)
-print("dEP = {} mm".format(round(ep[0],2)))
-print("hEP = {} mm".format(round(ep[1],2)))
+print("dEP = {} mm\t hEP = {} mm".format(round(ep[0],2), round(ep[1],2)))
 
 # Austrittspupille berechnen 
 ap = rt.calcAP(table)
-print("dAP = {} mm".format(round(ap[0],2)))
-print("hAP = {} mm".format(round(ap[1],2)))
+print("dAP = {} mm\t hAP = {} mm".format(round(ap[0],2), round(ap[1],2)))
 
-# bfl berechnen 
-bfl = rt.calcBFL(table)
-print("bfl = {} mm".format(round(bfl,2)))
-
-# ffl berechnen 
-ffl = rt.calcFFL(table)
-print("ffl = {} mm".format(round(ffl,2)))
- 
-# efl berechnen 
+# bfl, ffl, efl berechnen 
+bfl = rt.calcBFL(table) 
+ffl = rt.calcFFL(table) 
 efl = rt.calcEFL(table)
-print("efl = {} mm".format(round(efl,2)))
+print("efl = {} mm\t ffl = {} mm\t bfl = {} mm".
+      format(round(efl,2), round(ffl,2), round(bfl,2)))
 
 # Bildposition berechnen und in table schreiben
 dImage = rt.calcDImage(table)
 table.loc[len(table)-1, 'x'] += dImage
 print("dI = {} mm".format(round(table.loc[len(table)-1, 'x'], 2)))
+if dImage < 0: print("Bild ist virtuell.")
 
-# Surfaces berechnen
+# Haupt- und Randstrahl berechnen
 uMR = ep[1]/(table.loc[1].x-ep[0])
 uCR = -table.loc[0].z/(table.loc[1].x-ep[0])
 marginalRay = rt.calcYNU(table, [0, 0, uMR])
@@ -50,20 +44,16 @@ print("beta = {}".format(round(beta, 2)))
 
 # Hauptebenen berechnen
 H1, H2 = rt.calcPrinciplePlanes(ffl, bfl, efl)
-print("H1 = {} mm".format(round(H1, 2)))
-print("H2 = {} mm".format(round(H2, 2)))
+print("H1 = {} mm\t H2 = {} mm".format(round(H1, 2), round(H2, 2)))
 
 # f-Zahl berechnen
 fNumber = rt.calcFNumber(efl, ep[1])
-print("beta = {}".format(round(fNumber, 2)))
+print("f-Zahl = {}".format(round(fNumber, 2)))
 
-# Berechne objektseitige numerische Apertur
+# Berechne objektseitige und bildseitige numerische Apertur
 NAo = rt.calcNAO(chiefRay)
-print("NA_o = {:.3f}".format(round(NAo, 3)))
-
-# Berechne bildseitige numerische Apertur
 NAi = rt.calcNAI(chiefRay)
-print("NA_i = {:.3f}".format(round(NAi, 3)))
+print("NA_i = {:.3f}\t NA_o = {:.3f}".format(round(NAi, 3), round(NAo, 3)))
 
 
 # Darstellung des Strahlenganges

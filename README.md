@@ -21,6 +21,7 @@ Exceptions abfangen:
 - [x] optisches System darf nur ein *Stop* besitzen
 - [x] optisches System darf nur ein *Objekt* besitzen
 - [x] optisches System darf nur aus folgenden Typen bestehen: O (Object), L (Lens), S (Stop), I (Image)
+- [ ] optisches System darf nur ein *Image* besitzen, welches sich am Ende befinden muss
 
 Verschönerungen:
 - [x] Objekt(-ebene) einzeichnen
@@ -30,6 +31,7 @@ Verschönerungen:
 - [ ] EP/AP einzeichnen (auf Wunsch)
 - [ ] Strahlen in unterschiedlichen Farben darstellen
 - [ ] Kommentare erweitern, sodass bspw. *help(rt.calcBFL)* hilfreich ist
+- [ ] Spiegel implementieren
 
 Damit wir Kekse bekommen:
 - [ ] GUI
@@ -41,8 +43,5 @@ Damit wir Kekse bekommen:
   
   
 ## To-Do
-- [x] Richtung für Strahlen angeben bei calcYNU
-  - dadurch sollen Vorzeichen von Brechungsindex und Krümmungsradien gedreht werden und die Abstände von hinten kommend passen
-- [x] Strahl bis zum Bild darstellen
-  - erst Position des Bildes berechnen und dann *table* um Bildebene erweitern
-  
+- [ ] Vorzeichenkonvention beim Rückwärtsrechnen beachten (ffl, dEP positiv)  
+    - beim Rückwärtsrechnen werden die Vorzeichen aller Abstände umgedreht
