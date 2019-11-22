@@ -260,6 +260,23 @@ def calcNAO(chiefRay):
 def calcNAI(chiefRay):
     return abs(chiefRay[-1].n * chiefRay[-1].u)
 
+# Berechne sphärische Seidel-Aberrationen (S_1)
+def calcSeidel1(table, marginalRay):
+    aberrations = []
+    for i in range(len(table)):
+        
+        aberrations.append(
+                -marginalRay[i-1].n**2 * marginalRay[i].y * (
+                marginalRay[i].y/table.loc[i, 'R'] + marginalRay[i-1].u)**2 * (
+                marginalRay[i].u/marginalRay[i].n -
+                marginalRay[i-1].u/marginalRay[i-1].n)
+                )
+                
+        #print("-{}**2 * {} * ({}/{} + {}) * ({}/{} - {}/{})".format(marginalRay[i-1].n, marginalRay[i].y, marginalRay[i].y, table.loc[i, 'R'], marginalRay[i-1].u, marginalRay[i].u, marginalRay[i].n, marginalRay[i-1].u, marginalRay[i-1].n))
+        #print("=", aberrations[-1])
+    return aberrations
+
+
 # Erzeuge Plot des optischen Systems
 # table: pandas Dataframe mit optischen System
 # rays: [ray1, ray2, ...] mit ray=[ynu1,ynu2,...]

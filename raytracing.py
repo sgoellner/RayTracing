@@ -55,6 +55,11 @@ NAo = rt.calcNAO(chiefRay)
 NAi = rt.calcNAI(chiefRay)
 print("NA_i = {:.3f}\t NA_o = {:.3f}".format(round(NAi, 3), round(NAo, 3)))
 
+S1 = rt.calcSeidel1(table, marginalRay)
+print("Sphärische Seidelaberrationen:")
+for i in range(len(S1)):
+    print("#{}\t{:.4f} mm".format(i, S1[i]))
+print("S1_ges\t{:.4f}".format(sum(S1)))
 
 # Darstellung des Strahlenganges
 rt.plotOptSystem(table, [marginalRay, chiefRay])
