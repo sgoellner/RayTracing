@@ -110,6 +110,19 @@ def loadOptSystem(fileName):
     except KeyError:
         print("Fehler! Kein Stop angegeben!")
         sys.exit(1)
+    
+    # Genau ein Image vorhanden?
+    try:
+        if table.type.value_counts()['I'] != 1:
+            print('Fehler! Es ist nicht ein Bild, sondern {} vorhanden!'
+                  .format(table.type.value_counts()['I']))
+            sys.exit(1)
+        if table.loc[len(table)-1, 'type'] != 'I':
+            print('Fehler! Letzte Ebene ist keine Bildebene.')
+            sys.exit(1)
+    except KeyError:
+        print("Fehler! Kein Bild angegeben!")
+        sys.exit(1)
         
     # Radius prüfen
     for i in range(len(table)):
@@ -260,20 +273,76 @@ def calcNAO(chiefRay):
 def calcNAI(chiefRay):
     return abs(chiefRay[-1].n * chiefRay[-1].u)
 
+# Seidel-Aberrationen:
+# S_1=-n^2*h(h/R+u)^2*(u'/n'-u/n)
 # Berechne sphärische Seidel-Aberrationen (S_1)
 def calcSeidel1(table, marginalRay):
     aberrations = []
     for i in range(len(table)):
-        
         aberrations.append(
                 -marginalRay[i-1].n**2 * marginalRay[i].y * (
                 marginalRay[i].y/table.loc[i, 'R'] + marginalRay[i-1].u)**2 * (
                 marginalRay[i].u/marginalRay[i].n -
                 marginalRay[i-1].u/marginalRay[i-1].n)
                 )
-                
-        #print("-{}**2 * {} * ({}/{} + {}) * ({}/{} - {}/{})".format(marginalRay[i-1].n, marginalRay[i].y, marginalRay[i].y, table.loc[i, 'R'], marginalRay[i-1].u, marginalRay[i].u, marginalRay[i].n, marginalRay[i-1].u, marginalRay[i-1].n))
-        #print("=", aberrations[-1])
+    return aberrations
+
+# Berechne Koma (S_2)
+def calcSeidel2(table, marginalRay, chiefRay):
+    aberrations = []
+    for i in range(len(table)):
+        aberrations.append(
+                -marginalRay[i-1].n**2 * marginalRay[i].y * (
+                marginalRay[i].y/table.loc[i, 'R'] + marginalRay[i-1].u) * (
+                chiefRay[i].y/table.loc[i, 'R'] + chiefRay[i-1].u) * (
+                marginalRay[i].u/marginalRay[i].n -
+                marginalRay[i-1].u/marginalRay[i-1].n)
+                )
+    return aberrations
+
+# Berechne Astigmatismus (S_3)
+def calcSeidel3(table, marginalRay, chiefRay):
+    aberrations = []
+    for i in range(len(table)):
+        aberrations.append(
+                -marginalRay[i-1].n**2 * marginalRay[i].y * (
+                chiefRay[i].y/table.loc[i, 'R'] + chiefRay[i-1].u) ** 2 * (
+                marginalRay[i].u/marginalRay[i].n -
+                marginalRay[i-1].u/marginalRay[i-1].n)
+                )
+    return aberrations
+
+# Berechne Bildfeldwölbung (S_4)
+def calcSeidel4(table, marginalRay, chiefRay):
+    aberrations = []
+    for i in range(len(table)):
+        aberrations.append(
+                -marginalRay[i-1].n**2 / table.loc[i, 'R'] * (
+                chiefRay[i].y * (
+                marginalRay[i].y/table.loc[i, 'R'] + marginalRay[i-1].u) -
+                marginalRay[i].y * (
+                chiefRay[i].y/table.loc[i, 'R'] + chiefRay[i-1].u)) ** 2 * (
+                1/marginalRay[i].n - 1/marginalRay[i-1].n)
+                )
+    return aberrations
+
+# Berechne Verzeichnung (S_5)
+def calcSeidel5(table, marginalRay, chiefRay):
+    aberrations = []
+    for i in range(len(table)):
+        aberrations.append(
+                -marginalRay[i-1].n**3 * (
+                chiefRay[i].y/table.loc[i, 'R'] + chiefRay[i-1].u) ** 3 *
+                marginalRay[i].y * (
+                1/marginalRay[i].n**2 - 1/marginalRay[i-1].n**2) + 
+                marginalRay[i-1].n**2 / table.loc[i, 'R'] * chiefRay[i].y * (
+                chiefRay[i].y/table.loc[i, 'R'] + chiefRay[i-1].u) * (
+                2 * marginalRay[i].y * (
+                chiefRay[i].y/table.loc[i, 'R'] + chiefRay[i-1].u) - 
+                chiefRay[i].y * (
+                marginalRay[i].y/table.loc[i, 'R'] + marginalRay[i-1].u)) * (
+                1/marginalRay[i].n - 1/marginalRay[i-1].n)
+                )
     return aberrations
 
 

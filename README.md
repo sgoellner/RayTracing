@@ -13,7 +13,7 @@ Berechnungen:
 - [x] f-Zahl
 - [x] Lage Hauptebenen
 - [x] Abbildungsverhältnis
-- [ ] (wenn frühzeitig fertig: Seidelaberrationen)
+- [x] Seidelaberrationen
 
 Exceptions abfangen:
 - [x] R = 0 -> Fehlerausgabe sowie R = inf
@@ -21,7 +21,7 @@ Exceptions abfangen:
 - [x] optisches System darf nur ein *Stop* besitzen
 - [x] optisches System darf nur ein *Objekt* besitzen
 - [x] optisches System darf nur aus folgenden Typen bestehen: O (Object), L (Lens), S (Stop), I (Image)
-- [ ] optisches System darf nur ein *Image* besitzen, welches sich am Ende befinden muss
+- [x] optisches System darf nur ein *Image* besitzen, welches sich am Ende befinden muss
 
 Verschönerungen:
 - [x] Objekt(-ebene) einzeichnen

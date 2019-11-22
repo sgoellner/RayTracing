@@ -55,11 +55,40 @@ NAo = rt.calcNAO(chiefRay)
 NAi = rt.calcNAI(chiefRay)
 print("NA_i = {:.3f}\t NA_o = {:.3f}".format(round(NAi, 3), round(NAo, 3)))
 
+# Berechne sphärische Aberrationen
 S1 = rt.calcSeidel1(table, marginalRay)
-print("Sphärische Seidelaberrationen:")
+print("\nSphärische Aberrationen:")
 for i in range(len(S1)):
     print("#{}\t{: .4f} mm".format(i, S1[i]))
 print("S1_ges\t{: .4f} mm".format(sum(S1)))
+
+# Berechne Koma
+S2 = rt.calcSeidel2(table, marginalRay, chiefRay)
+print("\nKoma:")
+for i in range(len(S2)):
+    print("#{}\t{: .4f} mm".format(i, S2[i]))
+print("S2_ges\t{: .4f} mm".format(sum(S2)))
+
+# Berechne Astigmatismus
+S3 = rt.calcSeidel3(table, marginalRay, chiefRay)
+print("\nAstigmatismus:")
+for i in range(len(S3)):
+    print("#{}\t{: .4f} mm".format(i, S3[i]))
+print("S3_ges\t{: .4f} mm".format(sum(S3)))
+
+# Berechne Bildfeldwölbung
+S4 = rt.calcSeidel4(table, marginalRay, chiefRay)
+print("\nBildfeldwölbung:")
+for i in range(len(S4)):
+    print("#{}\t{: .4f} mm".format(i, S4[i]))
+print("S4_ges\t{: .4f} mm".format(sum(S4)))
+
+# Berechne Verzeichnung
+S5 = rt.calcSeidel5(table, marginalRay, chiefRay)
+print("\nVerzeichnung:")
+for i in range(len(S5)):
+    print("#{}\t{: .4f} mm".format(i, S5[i]))
+print("S5_ges\t{: .4f} mm".format(sum(S5)))
 
 # Darstellung des Strahlenganges
 rt.plotOptSystem(table, [marginalRay, chiefRay])
