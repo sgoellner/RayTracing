@@ -24,6 +24,8 @@ class ynu:
                             for item in sorted(self.__dict__))))
         
 # Einlesen der Datei welche optisches System beinhält
+# Eingabeparameter: Dateiname (+pfad)
+# Rückgabewert: DataFrame mit Parametern des optischen Systems
 def loadOptSystem(fileName):
     # Lade Datei in table
     try:
@@ -124,7 +126,7 @@ def loadOptSystem(fileName):
         print("Fehler! Kein Bild angegeben!")
         sys.exit(1)
         
-    # Radius prüfen
+    # Radien prüfen
     for i in range(len(table)):
         if table.R[i] == 0:
             print('Fehler! Radius darf nicht 0 sein')
@@ -134,8 +136,10 @@ def loadOptSystem(fileName):
 
 
 # Berechne paraxialen Strahlengang von startPos durch table
-# table: pandas Dataframe mit optischen System
-# StartPos: [Index der Ebene bezogen auf table, Höhe Strahl, Steigung Strahl]
+# Eingabeparameter:
+#   table: pandas Dataframe mit optischen System
+#   StartPos: [Index der Ebene bezogen auf table, Strahlhöhe, Strahlsteigung]
+# Rückgabewert: Liste mit YNU-Datentyp für jeden berechnete Ebene
 def calcYNU(table, startPos = [0, 10, 0.01], inverted=False):
     startI, startY, startU = startPos
     ray = [ynu(
@@ -172,7 +176,10 @@ def calcYNU(table, startPos = [0, 10, 0.01], inverted=False):
    
     return ray
 
-# Berechne Position und Lage der Eintrittspupille
+# Berechne Höhe und Lage der Eintrittspupille (EP)
+# Eingabeparameter: DataFrame mit optischen System
+# Rückgabewert: [dEP, hEP], wobei dEP Position der EP von erster Ebene aus
+#               und hEP Höhe der EP sind
 def calcEP(table):
     # Eintrittspupille - Position
     startI = table.loc[table['type']=='S'].index[0] # Index des ersten Stops
@@ -191,7 +198,10 @@ def calcEP(table):
     hEP = rayHEP[-2].y + rayHEP[-2].u * dEP # h_EP = y + u*d_EP
     return [dEP, hEP]
 
-# Berechne Position und Lage der Austrittspupille
+# Berechne Höhe und Lage der Austrittspupille (AP)
+# Eingabeparameter: DataFrame mit optischen System
+# Rückgabewert: [dAP, hAP], wobei dAP Position der AP von erster Ebene aus
+#               und hAP Höhe der AP sind
 def calcAP(table):
     # Austrittspupille - Position
     startI = table.loc[table['type']=='S'].index[0] # Index des ersten Stops
@@ -211,9 +221,11 @@ def calcAP(table):
     return [dAP, hAP]
 
 
-# Berechne back focal length (rückwertige Fokallänge)
+# Berechne back focal length (BFL, rückwertige Fokallänge)
+# Eingabeparameter: DataFrame mit optischen System
+# Rückgabewert: BFL
 def calcBFL(table):
-    # Randbedingungen zur Bestimmung der bfl:
+    # Randbedingungen zur Bestimmung der BFL:
     startI = 0 
     startY = 1 
     startU = 0
@@ -223,9 +235,11 @@ def calcBFL(table):
     bfl = -ray[-1].y/ray[-1].u 
     return bfl
 
-# Berechne front focal length (vordere Fokallänge)
+# Berechne front focal length (FFL, vordere Fokallänge)
+# Eingabeparameter: DataFrame mit optischen System
+# Rückgabewert: FFL
 def calcFFL(table):
-    # Randbedingungen zur Bestimmung der ffl:
+    # Randbedingungen zur Bestimmung der FFL:
     startI = len(table)-1
     startY = 1 
     startU = 0
@@ -235,7 +249,9 @@ def calcFFL(table):
     ffl = ray[-2].y/ray[-2].u 
     return ffl
 
-# Berechne effective focal length (effektive Fokallänge)
+# Berechne effective focal length (EFL, effektive Fokallänge)
+# Eingabeparameter: DataFrame mit optischen System
+# Rückgabewert: EFL
 def calcEFL(table):
     # Randbedingungen zur Bestimmung der ffl:
     startI = len(table)-1
@@ -247,35 +263,49 @@ def calcEFL(table):
     efl = -ray[0].y/ray[-2].u 
     return efl
 
-# Berechne (paraxial) korrekte Bildposition
+# Berechne paraxiale Bildposition
+# Eingabeparameter: DataFrame mit optischen System
+# Rückgabewert: Distanz von letzter Ebene bis zur Gauß'schen Bildebene
 def calcDImage(table):
     ray = calcYNU(table, [0, 0, 0.01])
     dImage = -ray[-1].y/ray[-1].u
     return dImage
 
 # Berechne Abbildungsmaßstab
+# Eingabeparameter: DataFrame mit optischen System
+# Rückgabewert: Abbildungsmaßstab
 def calcMagnification(table):
     return table.loc[len(table)-1, 'z']/table.loc[0, 'z']
 
 # Berechne Hauptebenen
+# Inputparameter: FFL, BFL, EFL
+# Rückgabewert: H1, H2
 def calcPrinciplePlanes(ffl, bfl, efl):
     return ffl + efl, bfl - efl
 
 # Berechne f-Zahl
+# Eingabeparameter: EFL, hEP (Höhe der Eintrittspupille)
+# Rückgabewert: f-Zahl
 def calcFNumber(efl, hEP):
     return efl/(2*hEP)
 
 # Berechne objektseitige numerische Apertur
+# Eingabeparameter: Hauptstrahl 
+# Rückgabewert: NA_o (objektseitige numerische Apertur)
 def calcNAO(chiefRay):
     return abs(chiefRay[0].n * chiefRay[0].u)
 
 # Berechne bildseitige numerische Apertur
+# Eingabeparameter: Hauptstrahl 
+# Rückgabewert: NA_i (bildseitige numerische Apertur)
 def calcNAI(chiefRay):
     return abs(chiefRay[-1].n * chiefRay[-1].u)
 
 # Seidel-Aberrationen:
 # S_1=-n^2*h(h/R+u)^2*(u'/n'-u/n)
 # Berechne sphärische Seidel-Aberrationen (S_1)
+# Eingabeparameter: DataFrame mit optischen System, Randstrahl
+# Rückgabewert: Liste mit einzelnen Anteilen der 1. Seidelaberration pro Ebene
 def calcSeidel1(table, marginalRay):
     aberrations = []
     for i in range(len(table)):
@@ -288,6 +318,8 @@ def calcSeidel1(table, marginalRay):
     return aberrations
 
 # Berechne Koma (S_2)
+# Eingabeparameter: DataFrame mit optischen System, Randstrahl, Hauptstrahl
+# Rückgabewert: Liste mit einzelnen Anteilen der 2. Seidelaberration pro Ebene
 def calcSeidel2(table, marginalRay, chiefRay):
     aberrations = []
     for i in range(len(table)):
@@ -301,6 +333,8 @@ def calcSeidel2(table, marginalRay, chiefRay):
     return aberrations
 
 # Berechne Astigmatismus (S_3)
+# Eingabeparameter: DataFrame mit optischen System, Randstrahl, Hauptrahl
+# Rückgabewert: Liste mit einzelnen Anteilen der 3. Seidelaberration pro Ebene
 def calcSeidel3(table, marginalRay, chiefRay):
     aberrations = []
     for i in range(len(table)):
@@ -313,6 +347,8 @@ def calcSeidel3(table, marginalRay, chiefRay):
     return aberrations
 
 # Berechne Bildfeldwölbung (S_4)
+# Eingabeparameter: DataFrame mit optischen System, Randstrahl, Hauptstrahl
+# Rückgabewert: Liste mit einzelnen Anteilen der 4. Seidelaberration pro Ebene
 def calcSeidel4(table, marginalRay, chiefRay):
     aberrations = []
     for i in range(len(table)):
@@ -327,6 +363,8 @@ def calcSeidel4(table, marginalRay, chiefRay):
     return aberrations
 
 # Berechne Verzeichnung (S_5)
+# Eingabeparameter: DataFrame mit optischen System, Randstrahl, Haupstrahl
+# Rückgabewert: Liste mit einzelnen Anteilen der 5. Seidelaberration pro Ebene
 def calcSeidel5(table, marginalRay, chiefRay):
     aberrations = []
     for i in range(len(table)):
@@ -348,7 +386,7 @@ def calcSeidel5(table, marginalRay, chiefRay):
 
 # Erzeuge Plot des optischen Systems
 # table: pandas Dataframe mit optischen System
-# rays: [ray1, ray2, ...] mit ray=[ynu1,ynu2,...]
+# rays: [ray, ray, ...] mit ray=[ynu1,ynu2,...]
 def plotOptSystem(table, rays):
     # Erzeuge Subplot
     fig, ax = plt.subplots()
