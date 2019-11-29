@@ -387,7 +387,7 @@ def calcSeidel5(table, marginalRay, chiefRay):
 # Erzeuge Plot des optischen Systems
 # table: pandas Dataframe mit optischen System
 # rays: [ray, ray, ...] mit ray=[ynu1,ynu2,...]
-def plotOptSystem(table, rays):
+def plotOptSystem(table, rays, ep = [], ap = [], principlePlanes = []):
     # Erzeuge Subplot
     fig, ax = plt.subplots()
     patches=[]
@@ -436,7 +436,30 @@ def plotOptSystem(table, rays):
                     colors='r', linestyles='solid', label='') 
           ax.vlines(table[:index+1].x.sum(), -stop.z, -table[:index+1].z.sum(),
                     colors='r', linestyles='solid', label='') 
-       
+    
+    # Eintrittspupille einzeichnen
+    if ep:
+        ax.vlines(table[:2].x.sum()-ep[0], ep[1], 1.1*table[:].z.max(), 
+                  colors='g', linestyles='dashed', label='') 
+        ax.vlines(table[:2].x.sum()-ep[0], -ep[1], -1.1*table[:].z.max(),
+                  colors='g', linestyles='dashed', label='') 
+        
+    # Austrittspupille einzeichnen
+    if ap:
+        ax.vlines(table[:-1].x.sum()+ap[0], ap[1], 1.1*table[:].z.max(), 
+                  colors='m', linestyles='dashed', label='') 
+        ax.vlines(table[:-1].x.sum()+ap[0], -ap[1], -1.1*table[:].z.max(),
+                  colors='m', linestyles='dashed', label='') 
+
+    # Hauptebenen einzeichnen
+    if principlePlanes:
+        ax.vlines(table[:2].x.sum()+principlePlanes[0], -1.1*table[:].z.max(),
+                  1.1*table[:].z.max(),
+                  colors='b', linestyles='dotted', label='')
+        ax.vlines(table[:-1].x.sum()+principlePlanes[1], -1.1*table[:].z.max(),
+                  1.1*table[:].z.max(),
+                  colors='b', linestyles='dotted', label='')
+    
     # Achsenbegrenzungen berechnen und setzen
     # x: von min bis max mit jeweils 1/50 der Länge des opt. Systems als Rand
     # y: von min bis max mit jeweils 1/10 der maximalen Höhe als Rand

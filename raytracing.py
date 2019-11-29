@@ -91,4 +91,4 @@ for i in range(len(S5)):
 print("S5_ges\t{: .4f} mm".format(sum(S5)))
 
 # Darstellung des Strahlenganges
-rt.plotOptSystem(table, [marginalRay, chiefRay])
+rt.plotOptSystem(table, [marginalRay, chiefRay], ep, ap, [H1, H2])

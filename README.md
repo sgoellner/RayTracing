@@ -27,8 +27,8 @@ Verschönerungen:
 - [x] Objekt(-ebene) einzeichnen
 - [x] Bild(-ebene) einzeichnen
 - [x] Haupt- und Randstrahl einzeichnen
-- [ ] Hauptebenen einzeichnen (auf Wunsch)
-- [ ] EP/AP einzeichnen (auf Wunsch)
+- [x] Hauptebenen einzeichnen (auf Wunsch)
+- [x] EP/AP einzeichnen (auf Wunsch)
 - [ ] Strahlen in unterschiedlichen Farben darstellen
 - [x] Kommentare erweitern, sodass bspw. *help(rt.calcBFL)* hilfreich ist
 - [ ] Spiegel implementieren
@@ -43,5 +43,5 @@ Damit wir Kekse bekommen:
   
   
 ## To-Do
-- [ ] Vorzeichenkonvention beim Rückwärtsrechnen beachten (ffl, dEP positiv)  
+- [ ] Vorzeichenkonvention beim Rückwärtsrechnen beachten (ffl positiv?, dEP positiv)  
     - beim Rückwärtsrechnen werden die Vorzeichen aller Abstände umgedreht
