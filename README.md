@@ -30,7 +30,7 @@ Verschönerungen:
 - [ ] Hauptebenen einzeichnen (auf Wunsch)
 - [ ] EP/AP einzeichnen (auf Wunsch)
 - [ ] Strahlen in unterschiedlichen Farben darstellen
-- [ ] Kommentare erweitern, sodass bspw. *help(rt.calcBFL)* hilfreich ist
+- [x] Kommentare erweitern, sodass bspw. *help(rt.calcBFL)* hilfreich ist
 - [ ] Spiegel implementieren
 
 Damit wir Kekse bekommen:
