@@ -31,6 +31,7 @@ Verschönerungen:
 - [x] EP/AP einzeichnen (auf Wunsch)
 - [x] Strahlen in unterschiedlichen Farben darstellen
 - [x] Kommentare erweitern, sodass bspw. *help(rt.calcBFL)* hilfreich ist
+- [x] Auf Wunsch Grafik als PNG exportieren
 - [ ] Spiegel implementieren
 
 Damit wir Kekse bekommen:
