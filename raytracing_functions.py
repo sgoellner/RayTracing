@@ -392,7 +392,10 @@ def calcSeidel5(table, marginalRay, chiefRay):
 # ep: [Distanz EP, Höhe EP]
 # ap: [Distanz AP, Höhe AP]
 # principlePlanes: [Distand H1, Distanz H2]
-def plotOptSystem(table, rays, rayColors = ['black'], ep = [], ap = [], principlePlanes = []):
+# saveFig: Wenn true dann wird Grafik abgespeichert (Raytrace.png)
+def plotOptSystem(table, rays, rayColors = ['black'], 
+                  ep = [], ap = [], principlePlanes = [],
+                  saveFig = False):
     # Erzeuge Subplot
     fig, ax = plt.subplots()
     patches=[]
@@ -481,6 +484,8 @@ def plotOptSystem(table, rays, rayColors = ['black'], ep = [], ap = [], principl
     plt.xlabel('opt. Achse in mm')
     plt.ylabel('z in mm')
     plt.show
+    if saveFig:
+        plt.savefig('Raytrace.png', dpi=300)
 
 
 

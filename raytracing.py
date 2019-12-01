@@ -93,4 +93,5 @@ print("S5_ges\t{: .4f} mm".format(sum(S5)))
 # Darstellung des Strahlenganges
 rt.plotOptSystem(table,
                  [marginalRay, chiefRay], rayColors=['orange', 'orange'],
-                 ep=ep, ap=ap, principlePlanes=[H1, H2])
+                 ep=ep, ap=ap, principlePlanes=[H1, H2],
+                 saveFig=False)
