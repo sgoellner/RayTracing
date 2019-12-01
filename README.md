@@ -29,7 +29,7 @@ Verschönerungen:
 - [x] Haupt- und Randstrahl einzeichnen
 - [x] Hauptebenen einzeichnen (auf Wunsch)
 - [x] EP/AP einzeichnen (auf Wunsch)
-- [ ] Strahlen in unterschiedlichen Farben darstellen
+- [x] Strahlen in unterschiedlichen Farben darstellen
 - [x] Kommentare erweitern, sodass bspw. *help(rt.calcBFL)* hilfreich ist
 - [ ] Spiegel implementieren
 

@@ -387,16 +387,22 @@ def calcSeidel5(table, marginalRay, chiefRay):
 # Erzeuge Plot des optischen Systems
 # table: pandas Dataframe mit optischen System
 # rays: [ray, ray, ...] mit ray=[ynu1,ynu2,...]
-def plotOptSystem(table, rays, ep = [], ap = [], principlePlanes = []):
+# rayColors [color1, color2, ...] wobei der index entsprechend zu rays ist
+#       Wenn zu wenig Farben angegeben sind, wird schwarz gewählt
+# ep: [Distanz EP, Höhe EP]
+# ap: [Distanz AP, Höhe AP]
+# principlePlanes: [Distand H1, Distanz H2]
+def plotOptSystem(table, rays, rayColors = ['black'], ep = [], ap = [], principlePlanes = []):
     # Erzeuge Subplot
     fig, ax = plt.subplots()
     patches=[]
     
     # Strahlen einzeichnen als Linien zwischen Ebenen
-    for ray in rays:
-        for i in range(2,len(ray)+1):
-            l = mlines.Line2D([ray[i-2].x,ray[i-1].x], 
-                              [ray[i-2].y, ray[i-1].y])
+    for i, ray in enumerate(rays):
+        for n in range(2,len(ray)+1):
+            l = mlines.Line2D([ray[n-2].x,ray[n-1].x], 
+                              [ray[n-2].y, ray[n-1].y],
+                              color=rayColors[i] if i<len(rayColors) else 'k')
             ax.add_line(l)     
     
     # Objekt einzeichnen

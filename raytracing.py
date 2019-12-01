@@ -1,4 +1,4 @@
-#Aufrufen der Datei im Kommandofenster: python raytracing.py test.txt
+# Aufrufen der Datei im Kommandofenster: python raytracing.py test.txt
 
 # Import
 import raytracing_functions as rt
@@ -91,4 +91,6 @@ for i in range(len(S5)):
 print("S5_ges\t{: .4f} mm".format(sum(S5)))
 
 # Darstellung des Strahlenganges
-rt.plotOptSystem(table, [marginalRay, chiefRay], ep, ap, [H1, H2])
+rt.plotOptSystem(table,
+                 [marginalRay, chiefRay], rayColors=['orange', 'orange'],
+                 ep=ep, ap=ap, principlePlanes=[H1, H2])
