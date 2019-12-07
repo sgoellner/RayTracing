@@ -303,6 +303,7 @@ def calcNAI(chiefRay):
 
 # Seidel-Aberrationen:
 # S_1=-n^2*h(h/R+u)^2*(u'/n'-u/n)
+    
 # Berechne sphärische Seidel-Aberrationen (S_1)
 # Eingabeparameter: DataFrame mit optischen System, Randstrahl
 # Rückgabewert: Liste mit einzelnen Anteilen der 1. Seidelaberration pro Ebene
@@ -316,6 +317,21 @@ def calcSeidel1(table, marginalRay):
                 marginalRay[i-1].u/marginalRay[i-1].n)
                 )
     return aberrations
+
+# Berechne Queraberrationen
+# Eingabeparameter: DataFrame mit optischen System, Randstrahl
+# Rückgabewert: Queraberration
+def calcTransSpherAbn(table, marginalRay):
+    return sum(calcSeidel1(table, marginalRay))/(
+        2*table.loc[len(table)-1, 'n']*marginalRay[-1].u)
+
+# Berechne besten Fokus
+# Eingabeparameter: DataFrame mit optischen System, Randstrahl
+# Rückgabewert: Verschiebung Fokus
+def calcBestAxDefocus(table, marginalRay):
+    return 3*sum(calcSeidel1(table, marginalRay))/(
+        8*table.loc[len(table)-1, 'n']*marginalRay[-1].u**2)
+
 
 # Berechne Koma (S_2)
 # Eingabeparameter: DataFrame mit optischen System, Randstrahl, Hauptstrahl
@@ -331,6 +347,21 @@ def calcSeidel2(table, marginalRay, chiefRay):
                 marginalRay[i-1].u/marginalRay[i-1].n)
                 )
     return aberrations
+
+# Berechne maximales sagittales Koma
+# Eingabeparameter: DataFrame mit optischen System, Randstrahl, Hauptstrahl
+# Rückgabewert: max. sagittales Koma
+def calcSagComa(table, marginalRay, chiefRay):
+    return sum(calcSeidel2(table, marginalRay, chiefRay))/(
+        2*table.loc[len(table)-1, 'n']*marginalRay[-1].u)
+
+# Berechne maximales meridionales Koma
+# Eingabeparameter: DataFrame mit optischen System, Randstrahl, Hauptstrahl
+# Rückgabewert: max. meridionales Koma
+def calcMerComa(table, marginalRay, chiefRay):
+    return 3*sum(calcSeidel2(table, marginalRay, chiefRay))/(
+        2*table.loc[len(table)-1, 'n']*marginalRay[-1].u)
+
 
 # Berechne Astigmatismus (S_3)
 # Eingabeparameter: DataFrame mit optischen System, Randstrahl, Hauptrahl

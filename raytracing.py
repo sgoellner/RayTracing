@@ -62,12 +62,28 @@ for i in range(len(S1)):
     print("#{}\t{: .4f} mm".format(i, S1[i]))
 print("S1_ges\t{: .4f} mm".format(sum(S1)))
 
+# Berechne Queraberration
+QAber = rt.calcTransSpherAbn(table, marginalRay)
+print("Queraberrationen: \t{: .4f} mm".format(QAber))
+
+# Berechne beste Fokuslage
+bestFocus = rt.calcBestAxDefocus(table, marginalRay)
+print("Bester Fokus bei \t{: .4f} mm".format(bestFocus))
+
 # Berechne Koma
 S2 = rt.calcSeidel2(table, marginalRay, chiefRay)
 print("\nKoma:")
 for i in range(len(S2)):
     print("#{}\t{: .4f} mm".format(i, S2[i]))
 print("S2_ges\t{: .4f} mm".format(sum(S2)))
+
+# Berechne sagittales Koma
+sagComa = rt.calcSagComa(table, marginalRay, chiefRay)
+print("Sagittales Koma: \t{: .4f} mm".format(sagComa))
+
+# Berechne meridionales Koma
+merComa = rt.calcMerComa(table, marginalRay, chiefRay)
+print("Meridionales Koma: \t{: .4f} mm".format(merComa))
 
 # Berechne Astigmatismus
 S3 = rt.calcSeidel3(table, marginalRay, chiefRay)
