@@ -7,32 +7,35 @@ Berechnungen:
 - [x] Bild: Lage und Höhe
 - [x] Austrittspupille: Lage und Größe
 - [x] Eintrittspupille: Lage und Größe
-- [ ] objektiv- und bildseitige Numerische Apertur
+- [x] objektiv- und bildseitige Numerische Apertur
 - [x] Haupt- und Randstrahl
 - [x] effective, front und back focal length (efl, ffl, bfl)
-- [ ] f-Zahl
-- [ ] Lage Hauptebenen
-- [ ] Abbildungsverhältnis
-- [ ] (wenn frühzeitig fertig: Seidelaberrationen)
+- [x] f-Zahl
+- [x] Lage Hauptebenen
+- [x] Abbildungsverhältnis
+- [x] Seidelaberrationen
 
 Exceptions abfangen:
-- [ ] R = 0 -> Fehlerausgabe sowie R = infty
-- [ ] Werte und Datentypen in optischem System prüfen
-- [ ] optisches System darf nur ein *Stop* besitzen
-- [ ] optisches System darf nur ein *Objekt* besitzen
-- [ ] optisches System darf nur aus folgenden Typen bestehen: O (Object), L (Lens), S (Stop), I (Image)
+- [x] R = 0 -> Fehlerausgabe sowie R = inf
+- [x] Werte und Datentypen in optischem System prüfen
+- [x] optisches System darf nur ein *Stop* besitzen
+- [x] optisches System darf nur ein *Objekt* besitzen
+- [x] optisches System darf nur aus folgenden Typen bestehen: O (Object), L (Lens), S (Stop), I (Image)
+- [x] optisches System darf nur ein *Image* besitzen, welches sich am Ende befinden muss
 
 Verschönerungen:
 - [x] Objekt(-ebene) einzeichnen
 - [x] Bild(-ebene) einzeichnen
-- [ ] Haupt- und Randstrahl einzeichnen
-- [ ] Hauptebenen einzeichnen (auf Wunsch)
-- [ ] EP/AP einzeichnen (auf Wunsch)
-- [ ] Strahlen in unterschiedlichen Farben darstellen
-- [ ] Kommentare erweitern, sodass bspw. *help(rt.calcBFL)* hilfreich ist
+- [x] Haupt- und Randstrahl einzeichnen
+- [x] Hauptebenen einzeichnen (auf Wunsch)
+- [x] EP/AP einzeichnen (auf Wunsch)
+- [x] Strahlen in unterschiedlichen Farben darstellen
+- [x] Kommentare erweitern, sodass bspw. *help(rt.calcBFL)* hilfreich ist
+- [x] Auf Wunsch Grafik als PNG exportieren
+- [ ] Spiegel implementieren
 
 Damit wir Kekse bekommen:
-- [ ] GUI
+- [x] GUI
   - Tkinter?
   - Browserbasiert/Webserver?
   - Drag'n'Drop von Elementen in optisches System (anstelle von Tabelle)
@@ -41,15 +44,10 @@ Damit wir Kekse bekommen:
   
   
 ## To-Do
-- [x] Richtung für Strahlen angeben bei calcYNU
-  - dadurch sollen Vorzeichen von Brechungsindex und Krümmungsradien gedreht werden und die Abstände von hinten kommend passen
-- [x] Strahl bis zum Bild darstellen
-  - erst Position des Bildes berechnen und dann *table* um Bildebene erweitern
+- [ ] Vorzeichenkonvention beim Rückwärtsrechnen beachten (ffl positiv?, dEP positiv)  
+    - beim Rückwärtsrechnen werden die Vorzeichen aller Abstände umgedreht# RayTracing
 - [ ] GUI mit TKinter
-	- [x] Darstellung des Plots im Fenster
-	- [x] Darstellung der Ergebnise( EP, AP, FFL, BFL, EFL, dI)
 	- [ ] Aktualisierung des Plots/der Messwerte bei neu einlesen
-	- [ ] evtl. nicht als png Darstellen -> Einbindung matplotlib?
 - [ ] Ausführlichere Hilfe
 - [ ] insgesamt optisch ansprechender gestalten
   
