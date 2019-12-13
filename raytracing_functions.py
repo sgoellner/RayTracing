@@ -260,7 +260,7 @@ def calcEFL(table):
     startU = 0
     # Strahl berechnen
     ray = calcYNU(table, [startI, startY, startU], inverted=True)
-    # ffl = -y/u
+    # efl = -y/u
     efl = -ray[0].y/ray[-2].u 
     return efl
 
