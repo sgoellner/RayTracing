@@ -507,7 +507,6 @@ def plotOptSystem(table, rays, rayColors = ['black'],
     xlim=[table.x[0]-table[:].x.sum()/50, table[:].x.sum()+table[:].x.sum()/50]
     ylim=[-1.1*table[:].z.max(), 1.1*table[:].z.max()]
     ax.set(xlim=xlim, ylim=ylim)
-    #ax.set(xlim=[-20, 40], ylim=ylim)
     
     # Optische Achse einzeichnen
     plt.plot(xlim, [0,0], color='grey', linewidth=1, linestyle='dashdot')
